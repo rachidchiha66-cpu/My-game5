@@ -1,30 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سبحة إلكترونية</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { background: #000; color: #fff; text-align: center; font-family: Arial; padding-top: 50px; }
-        .coin { font-size: 120px; cursor: pointer; transition: 0.1s; display: block; }
-        .coin:active { transform: scale(0.9); }
-        #score { font-size: 50px; color: #ffca28; margin: 20px; }
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container { text-align: center; }
+        #counter { font-size: 80px; font-weight: bold; color: #f1c40f; margin-bottom: 20px; }
+        .bead-button {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #f1c40f 0%, #d4af37 100%);
+            border-radius: 50%;
+            border: 8px solid #ffffff;
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.5);
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.1s;
+        }
+        .bead-button:active { transform: scale(0.9); }
+        .reset-btn {
+            margin-top: 30px;
+            background-color: transparent;
+            border: 1px solid #ccc;
+            color: #ccc;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div id="score">0</div>
-    <span class="coin" onclick="tap()">💰</span>
-    <h2>اضغط لتربح!</h2>
+    <div class="container">
+        <div id="counter">0</div>
+        <button class="bead-button" onclick="increment()"></button>
+        <br>
+        <button class="reset-btn" onclick="resetCounter()">إعادة ضبط</button>
+    </div>
 
     <script>
-        let score = 0;
+        let count = 0;
         const tg = window.Telegram.WebApp;
-        tg.expand(); // لجعل اللعبة تملأ الشاشة
+        tg.expand();
 
-        function tap() {
-            score++;
-            document.getElementById('score').innerText = score;
-            tg.HapticFeedback.impactOccurred('medium'); // اهتزاز للهاتف
+        function increment() {
+            count++;
+            document.getElementById('counter').innerText = count;
+            tg.HapticFeedback.impactOccurred('heavy'); // اهتزاز عند التسبيح
+        }
+
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter').innerText = count;
         }
     </script>
 </body>
