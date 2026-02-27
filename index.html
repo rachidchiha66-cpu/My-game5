@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سبحة إلكترونية</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #zikr-text {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #f1c40f;
+            height: 30px;
+            font-weight: bold;
+        }
+        #counter {
+            font-size: 80px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .bead {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #ffffff 0%, #d1d1d1 100%);
+            border-radius: 50%;
+            border: 10px solid #eee;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .bead:active { transform: scale(0.9); }
+        .reset-btn {
+            margin-top: 40px;
+            background: none;
+            border: 1px solid #555;
+            color: #888;
+            padding: 8px 16px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="zikr-text">سبحان الله العظيم وبحمده</div>
+    <div id="counter">0</div>
+    <div class="bead" onclick="increment()"></div>
+    <button class="reset-btn" onclick="reset()">إعادة العداد</button>
+
+    <script>
+        let count = 0;
+        const zikrs = ["سبحان الله العظيم وبحمده", "الحمد لله", "الله أكبر"];
+        let currentZikrIndex = 0;
+        
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function increment() {
+            count++;
+            document.getElementById('counter').innerText = count;
+            
+            // تغيير الذكر كل 33 ضغطة كمثال
+            if (count % 33 === 0) {
+                currentZikrIndex = (currentZikrIndex + 1) % zikrs.length;
+                document.getElementById('zikr-text').innerText = zikrs[currentZikrIndex];
+            }
+            
+            tg.HapticFeedback.impactOccurred('medium');
+        }
+
+        function reset() {
+            count = 0;
+            document.getElementById('counter').innerText = count;
+            currentZikrIndex = 0;
+            document.getElementById('zikr-text').innerText = zikrs[0];
+        }
+    </script>
+</body>
+</html>
